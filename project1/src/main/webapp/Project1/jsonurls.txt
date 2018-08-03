@@ -1,0 +1,3 @@
+These URLs go to some static json for testing until a DB is created that I can connect to via jdbc
+
+Employees: https://api.myjson.com/bins/nhahu

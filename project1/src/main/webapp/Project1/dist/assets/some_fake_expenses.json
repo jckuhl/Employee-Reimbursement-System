@@ -1,0 +1,83 @@
+[
+    {
+        "provider": "Applebees",
+        "reason": "Client Lunch",
+        "date": "10/12/2016",
+        "amount": 58.63,
+        "approval": 1,
+        "approvingManager": "Michael Scott",
+        "requestor": "Dwight Schrute"
+    },
+    {
+        "provider": "Uber",
+        "reason": "Driving David Wallace to NYC",
+        "date": "10/14/2016",
+        "amount": 117.28,
+        "approval": 2,
+        "approvingManager": null,
+        "requestor": "Dwight Schrute"
+    },
+    {
+        "provider": "Scoped shotgun",
+        "reason": "Clearing out office mice",
+        "date": "10/21/2016",
+        "amount": 1502.82,
+        "approval": 3,
+        "approvingManager": "Michael Scott",
+        "requestor": "Dwight Schrute"
+    },
+    {
+        "provider": "4 reams of copy paper",
+        "reason": "for the copier",
+        "date": "11/12/2016",
+        "amount": 73.92,
+        "approval": 1,
+        "approvingManager": "Michael Scott",
+        "requestor": "Pam Beezley"
+    },
+    {
+        "provider": "Copy Machine",
+        "reason": "Office voted on using the surplus for it",
+        "date": "11/18/2016",
+        "amount": 4932.16,
+        "approval": 1,
+        "approvingManager": "Michael Scott",
+        "requestor": "Pam Beezley"
+    },
+    {
+        "provider": "Chachi's",
+        "reason": "Taking Jan to brunch",
+        "date": "10/21/2016",
+        "amount": 52.82,
+        "approval": 3,
+        "approvingManager": "David Wallace",
+        "requestor": "Michael Scott"
+    },
+    {
+        "provider": "Cat Care Co",
+        "reason": "Medication for Sniffles",
+        "date": "11/17/2016",
+        "amount": 102.43,
+        "approval": 3,
+        "approvingManager": "Michael Scott",
+        "requestor": "Angela Martin"
+    },
+    {
+        "provider": "Hasbro",
+        "reason": "Stress relief toys, we need it",
+        "date": "12/10/2016",
+        "amount": 145.32,
+        "approval": 3,
+        "approvingManager": "Michael Scott",
+        "requestor": "Toby Flenderson"
+    },
+    {
+        "provider": "Misc",
+        "reason": "Office Christmas Party",
+        "date": "12/20/2016",
+        "amount": 200.00,
+        "approval": 1,
+        "approvingManager": "David Wallace",
+        "requestor": "Michael Scott"
+    }
+]
