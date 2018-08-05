@@ -25,37 +25,42 @@
             </div>
         </nav>
         <section class="container">
-            <div class="row">
-                <div class="col-sm-4">
-                    <ul class="list-group">
-                        <li class="list-group-item" 
+            <div class="row justify-content-center">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb" id="navbar">
+                        <li class="breadcrumb-item"
+                            :class="{ active: viewing=='profile'}"
                             @click="()=> switchProfile(0)">Employee Info
                         </li>
 
-                        <li class="list-group-item" 
+                        <li class="breadcrumb-item" 
+                            :class="{ active: viewing=='new'}"
                             @click="()=> switchProfile(1)">New Reimbursement
                         </li>
 
-                        <li class="list-group-item" 
+                        <li class="breadcrumb-item"
+                            :class="{ active: viewing=='expenses'}" 
                             @click="()=> switchProfile(2)">View Reimbursements
                         </li>
 
-                        <li class="list-group-item" 
+                        <li class="breadcrumb-item"
+                            :class="{ active: viewing=='employees'}" 
                             @click="()=> switchProfile(3)"
                             v-if="role=='Manager'">View Employees
                         </li>
 
-                        <li class="list-group-item" 
+                        <li class="breadcrumb-item"
+                            :class="{ active: viewing=='register'}" 
                             @click="()=> switchProfile(4)"
                             v-if="role=='Manager'">Register An Employee
                         </li>
 
                     </ul>
                 </div>
-
+            </div>
 <!-- PROFILE -->
-
-                <div class="col-sm-8" v-if="viewing=='profile' && isEmployeeLoaded">
+            <div class="row justify-content-center">
+                <div class="col-sm-6" v-if="viewing=='profile' && isEmployeeLoaded">
                     <h3>Your profile</h3>
                     <form class="form-horizontal">
                         <div class="form-group">
@@ -90,7 +95,8 @@
                                 </select>
                         </div>
                         <p>Employee ID: {{ employee.employeeId }}</p>
-
+                </div>
+                <div class="col-sm-6" v-if="viewing=='profile' && isEmployeeLoaded">
                         <h4>Contact Info</h4>
 
                         <div class="form-group">
@@ -195,9 +201,9 @@
                             @click="submitProfileChanges" v-if="editMode">Save</button>
                     </form>
                 </div>
-
+            </div>
 <!-- ADD NEW EXPENSES -->
-
+            <div class="rowjustify-content-center">
                 <div class="col-sm-8" v-if="viewing=='new' && isEmployeeLoaded">
                     <form>
                         <h3>New Expense Report</h3>
@@ -236,9 +242,10 @@
                         >Submit</button>
                     </form>
                 </div>
+            </div>
 
 <!-- EMPLOYEE EXPENSES -->
-
+            <div class="row">
                 <div class="col-sm-8" v-if="viewing=='expenses' && isEmployeeLoaded">
                     <p>Viewing {{ employee.fullname }}'s expenses</p>
                     <p>Green is approved, yellow is pending, red is denied</p>
@@ -311,9 +318,9 @@
                     </table>
                     <p v-else>You have no expenses! Expenses over one fiscal year old are purged.</p>
                 </div>
-
+            </div>
 <!-- SELECT/VIEW EMPLOYEES -->
-
+            <div class="row justify-content-center">
                 <div class="col-sm-8" v-if="viewing=='employees' && isEmployeeLoaded">
                     <h3>All Employees</h3>
                     <table class="table table-hover table-striped table-bordered">
@@ -345,9 +352,9 @@
                         </tbody>
                     </table>
                 </div>
-
+            </div>
 <!-- CREATE NEW EMPLOYEE -->
-
+            <div class="row justify-content-center">
                 <div class="col-sm-8" v-if="viewing=='register' && isEmployeeLoaded">
                     <h3>Register a New Employee</h3>
                     <h4>Personal Information</h4>

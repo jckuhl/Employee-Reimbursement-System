@@ -23,6 +23,11 @@ new Vue({
             return title(this.fname) + ' ' + title(this.lname);
         }
     },
+    watch: {
+        passwordCheck: function() {
+            this.passwordConfirmed = this.passwordCheck === this.password
+        }
+    },
     methods: {
         async findEmployee() {
             event.preventDefault();
@@ -36,15 +41,14 @@ new Vue({
         },
         async validateUsername() {
             this.usernameAttempts += 1;
-            const usernameTaken = await Connection.send('http://localhost:8082/project1/validateUsername.do', {
+            const usernameTaken = await Connection.get('http://localhost:8082/project1/validateUsername.do', {
                 method: 'POST', 
-                body: this.username,
+                body: JSON.stringify(this.username),
                 headers: {
                     "Content-Type": "application/json; charset=utf-8"
                 }
             });
-            console.log(JSON.parse(usernameTaken));
-            this.usernameValidated = this.username.length > 0;
+            this.usernameValidated = this.username.length > 0 && usernameTaken;
         },
         validatePassword() {
             let numbers = 0;
@@ -54,9 +58,6 @@ new Vue({
                 if('!@#$%^&*()_+-={}[]|:";\'<>?,./`~'.includes(char)) specialChars += 1;
             });
             this.passwordValidated = numbers >= 2 &&  specialChars >= 2 && this.password.length >= 8;
-        },
-        confirmPassword() {
-            this.confirmPassword = this.password === this.passwordCheck;
         }
     }
 });

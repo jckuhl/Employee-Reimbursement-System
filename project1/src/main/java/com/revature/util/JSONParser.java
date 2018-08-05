@@ -13,6 +13,10 @@ public class JSONParser {
         String[] kvpairs = json.split(",");
         Map<String, String> kvmap = new HashMap<String,String>();
         for(String kv : kvpairs) {
+<<<<<<< HEAD
+        	System.out.println(kv);
+=======
+>>>>>>> ed8a34de6d63eed36f000f5f175bbaa344e6102f
             String[] entries = kv.split(":");
             String key = entries[0].replace('\"', ' ').trim();
             String value = entries[1].replace('\"', ' ').trim();

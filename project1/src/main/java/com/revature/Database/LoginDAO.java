@@ -184,4 +184,28 @@ public class LoginDAO implements LoginDAOInterface {
 		}
 	}
 
+<<<<<<< HEAD
+	public String getUserName(Employee employee) {
+		try {
+			String sql = "SELECT username FROM employees INNER JOIN login ON u_id = owner WHERE employeeId = ?";
+			
+			Connection conn = JDBCConnection.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, employee.getEmployeeId());
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				return rs.getString("username");
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+		}
+		return null;
+	}
+
+=======
+>>>>>>> ed8a34de6d63eed36f000f5f175bbaa344e6102f
 }

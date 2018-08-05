@@ -1,6 +1,7 @@
 import Employee from './employee.js';
 import Expense from './expense.js';
 import Connection from './connection.js';
+import cleanString from './cleanser.js';
 /**
  * Controls the contents of the #app div
  */
@@ -34,6 +35,7 @@ new Vue({
         files: [],
         employeeFilter: 'all',
         approvalFilter: 'all',
+        loadedExpenses: true,
 
         //app management
         viewingAs: 'employee',
@@ -138,7 +140,7 @@ new Vue({
                     return "Quality Assurance";
             }
         },
-        switchProfile(index) {
+        async switchProfile(index) {
             const options = [
                 'profile',
                 'new',
@@ -148,10 +150,45 @@ new Vue({
             ]
             this.viewing = options[index];
             if(this.viewing == 'expenses') {
-
+                this.loadedExpenses = false;
+                let expenseData = await Connection.get('http://localhost:8082/project1/getExpenses.do', { method: "POST"});
+                if(expenseData) {
+                    this.loadedExpenses = true;
+                    console.log(expenseData);
+                    this.expenses = expenseData.map(expense=> {
+                        return new Expense(
+                            expense.eid,
+                            expense.provider,
+                            expense.reason,
+                            expense.date,
+                            expense.amount,
+                            expense.approval,
+                            expense.approvingManager,
+                            expense.owner
+                        );
+                    });
+                }
             }
             if(this.viewing == 'employees') {
-
+                let emplData = await Connection.get('http://localhost:8082/project1/getEmployees.do', { method: "POST"});
+                if(emplData) {
+                    console.log(emplData);
+                    this.employees = emplData.map(empl=> {
+                        return new Employee(
+                            empl.fname,
+                            empl.lname,
+                            empl.employeeId,
+                            empl.position,
+                            empl.street,
+                            empl.city,
+                            empl.state,
+                            empl.zip,
+                            empl.phone,
+                            empl.email,
+                            empl.isManager
+                        );
+                    });
+                }
             }
         },
         /**
@@ -168,6 +205,7 @@ new Vue({
             if(this.role == 'Manager') {
                 this.role = 'Employee';
                 this.employee = this.tempEmployee;
+                this.editEmployee = this.employee;
             } else {
                 this.role = 'Manager';
             }
@@ -199,15 +237,15 @@ new Vue({
         async createNewEmployee() {
             event.preventDefault();
             const newEmployee = new Employee(
-                this.newEmployee.fname,
-                this.newEmployee.lname,
-                this.newEmployee.employeeId,
-                this.newEmployee.position,
-                this.newEmployee.street,
-                this.newEmployee.city,
-                this.newEmployee.state,
-                this.newEmployee.zip,
-                this.newEmployee.phone,
+                cleanString(this.newEmployee.fname),
+                cleanString(this.newEmployee.lname),
+                cleanString(this.newEmployee.employeeId),
+                cleanString(this.newEmployee.position),
+                cleanString(this.newEmployee.street),
+                cleanString(this.newEmployee.city),
+                cleanString(this.newEmployee.state),
+                cleanString(this.newEmployee.zip),
+                cleanString(this.newEmployee.phone),
                 this.newEmployee.email,
                 false
             );
@@ -252,9 +290,9 @@ new Vue({
             }
             this.newExpenses.forEach(expense=> {
                 expenses.push(new Expense(0,
-                    expense.provider,
-                    expense.reason,
-                    expense.date,
+                    cleanString(expense.provider),
+                    cleanString(expense.reason),
+                    cleanString(expense.date),
                     expense.amount,
                     2,
                     null,
@@ -280,6 +318,7 @@ new Vue({
         },
         selectEmployee(employee) {
             this.employee = employee;
+            this.editEmployee = employee;
             this.employee.isManager = true; //only a manager can get to the screen that calls this method
         },
         getFiles() {
@@ -290,7 +329,6 @@ new Vue({
             console.log(this.files);
         },
         resolveExpense(expense) {
-            console.log(expense);
             expense.approvingManager = this.tempEmployee.fullname;
             Connection.send('http://localhost:8082/project1/resolveExpense.do', {
                 method: 'POST', 
@@ -300,8 +338,11 @@ new Vue({
                 }
             });
         },
-        logout() {
-            Connection.send('http://localhost:8082/project1/logout.do');
+        async logout() {
+            const redirectURL = await Connection.get('http://localhost:8082/project1/logout.do');
+            if(redirectURL) {
+                window.location.assign(redirectURL.redirect);
+            }
         }
     },
     /**
@@ -329,6 +370,11 @@ new Vue({
         }
         let currentEmployee = await Connection.get('http://localhost:8082/project1/getCurrentEmployee.do', { method: "POST"});
         if(currentEmployee) {
+            console.log(currentEmployee);
+            if(currentEmployee.message != undefined && currentEmployee.message == 'error') {
+                window.location.assign('../html/error.html');
+                return;
+            }
             this.employee = new Employee(
                 currentEmployee.fname,
                 currentEmployee.lname,

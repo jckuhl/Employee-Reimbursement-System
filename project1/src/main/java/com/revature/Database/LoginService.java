@@ -55,5 +55,12 @@ public class LoginService {
 	public void deleteEmployeeLogin(Employee employee) {
 		this.loginDAO.deleteEmployeeLogin(employee);
 	}
+<<<<<<< HEAD
+
+	public String getUserName(Employee employee) {
+		return this.loginDAO.getUserName(employee);
+	}
+=======
+>>>>>>> ed8a34de6d63eed36f000f5f175bbaa344e6102f
 	
 }

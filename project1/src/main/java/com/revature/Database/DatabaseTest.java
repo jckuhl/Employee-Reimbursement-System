@@ -118,10 +118,15 @@ public class DatabaseTest {
 //		}
 		
 		Employee dschrute = eds.getEmployeeById("780281");
+<<<<<<< HEAD
+		String username = ls.getUserName(dschrute);
+		System.out.println(username);
+=======
 		System.out.println(dschrute);
 		
 		List<Expense> expenses = es.getAllExpenses();
 		System.out.println(expenses);
+>>>>>>> ed8a34de6d63eed36f000f5f175bbaa344e6102f
 	}
 
 }

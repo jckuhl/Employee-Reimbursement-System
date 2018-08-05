@@ -4,16 +4,12 @@ body {
     color: white;
 }
 
-.list-group, .jumbotron {
+.jumbotron {
     color: black;
 }
 
-.list-group-item {
-    background: rgba(255, 255, 255, 0.75);
-}
-
-.list-group-item:hover {
-    background: rgba(123, 123, 207, 0.75);
+#navbar {
+    color: black;
 }
 
 input {

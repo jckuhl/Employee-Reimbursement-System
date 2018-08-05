@@ -2,11 +2,27 @@ package com.revature.Servlets;
 
 import java.io.IOException;
 import java.sql.SQLException;
+<<<<<<< HEAD
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+=======
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+>>>>>>> ed8a34de6d63eed36f000f5f175bbaa344e6102f
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -109,10 +125,67 @@ public class FrontController extends HttpServlet {
 		case "/project1/resolveExpense.do":
 			resolveExpense(request, response);
 			break;
+<<<<<<< HEAD
+		case "/project1/forgotusername.do":
+			forgotUsername(request, response);
+			break;
+=======
+>>>>>>> ed8a34de6d63eed36f000f5f175bbaa344e6102f
 		}
 		
 	}
 
+<<<<<<< HEAD
+	private void forgotUsername(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String data = request.getReader().readLine();
+		System.out.println(data);
+		String username = null;
+		Map<String, String> emailData = JSONParser.parse(data);
+		String employeeId = emailData.get("employeeId");
+		Employee employee = employeeDataService.getEmployeeById(employeeId);
+		System.out.println(employee);
+		String toEmail = emailData.get("email");
+		if(employee != null && toEmail.equals(employee.getEmail())) {
+			username = loginService.getUserName(employee);
+			String fromEmail = "jckuhl87@gmail.com";
+			Properties props = System.getProperties();
+			props.setProperty("mail.smtp.host", "localhost");
+			Session emailSession = Session.getDefaultInstance(props);
+			response.setContentType("text/html");
+			
+			MimeMessage message = new MimeMessage(emailSession);
+			try {
+				message.setFrom(fromEmail);
+				message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+				message.setSubject("Your ERS username");
+				message.setText("Hello!  Your username for the ERS is " + username);
+				Transport.send(message);
+				Map<String, String> returnData = new HashMap<>();
+				returnData.put("invalid", "false");
+				response.setContentType("application/json");
+				response.setCharacterEncoding("UTF-8");
+				String json = new Gson().toJson(returnData);
+				response.getWriter().write(json);
+				response.getWriter().close();
+				
+			} catch (MessagingException e) {
+				log.error(e.getMessage());
+			}
+		} else {
+
+			Map<String, String> returnData = new HashMap<>();
+			returnData.put("invalid", "true");
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			String json = new Gson().toJson(returnData);
+			response.getWriter().write(json);
+			response.getWriter().close();
+		}
+	}
+
+
+=======
+>>>>>>> ed8a34de6d63eed36f000f5f175bbaa344e6102f
 	private static void resolveExpense(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String data = request.getReader().readLine();
 		Map<String, String> expenseMap = JSONParser.parse(data);
@@ -125,10 +198,23 @@ public class FrontController extends HttpServlet {
 
 
 	private static void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+<<<<<<< HEAD
+		session = request.getSession(false);
+		if(session != null) {
+			session.invalidate();
+		}
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("redirect", "../html/index.html");
+		String json = new Gson().toJson(data);
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(json);
+=======
 		if(session != null) {
 			session.invalidate();
 		}
 		request.getRequestDispatcher("index.html").forward(request, response);
+>>>>>>> ed8a34de6d63eed36f000f5f175bbaa344e6102f
 	}
 
 	private static void handleLogin(String username, String password, HttpServletRequest request, HttpServletResponse response) {
@@ -159,11 +245,22 @@ public class FrontController extends HttpServlet {
 
 
 	private static void getCurrentEmployee(HttpServletResponse response, HttpServletRequest request) throws IOException, ServletException {
+<<<<<<< HEAD
+		if(session != null && session.getAttribute("employee") != null) {
+			String json = new Gson().toJson(session.getAttribute("employee"));
+			response.getWriter().write(json);
+		} else {
+			Map<String, String> map = new HashMap<>();
+			map.put("message", "error");
+			String json = new Gson().toJson(map);
+			response.getWriter().write(json);
+=======
 		if(session.getAttribute("employee") != null) {
 			String json = new Gson().toJson(session.getAttribute("employee"));
 			response.getWriter().write(json);
 		} else {
 			redirectToError(request, response);
+>>>>>>> ed8a34de6d63eed36f000f5f175bbaa344e6102f
 		}
 	}
 	
@@ -185,14 +282,22 @@ public class FrontController extends HttpServlet {
 		}
 	}
 	
+<<<<<<< HEAD
+	private static void handleRegister(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+=======
 	private static void handleRegister(HttpServletRequest request, HttpServletResponse response) {
+>>>>>>> ed8a34de6d63eed36f000f5f175bbaa344e6102f
 		String employeeId = request.getParameter("empId");
 		Employee employee = employeeDataService.getEmployeeById(employeeId);
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		loginService.setEmployeeLogin(employee, username, password);
 		
+<<<<<<< HEAD
+		request.getRequestDispatcher("index.html").forward(request, response);;
+=======
 		request.getRequestDispatcher("index.html");
+>>>>>>> ed8a34de6d63eed36f000f5f175bbaa344e6102f
 	}
 	
 	private void getEmployeeId(HttpServletResponse response) throws IOException {
@@ -257,7 +362,13 @@ public class FrontController extends HttpServlet {
 	private static void validateUserName(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String username = request.getReader().readLine();
 		List<String> usernames = loginService.getAllUserNames();
+<<<<<<< HEAD
+		Map<String, Boolean> validation = new HashMap<>();
+		validation.put("validated", !usernames.contains(username.replace("\"", "").trim()));
+		String json = new Gson().toJson(validation);
+=======
 		String json = new Gson().toJson(usernames.contains(username));
+>>>>>>> ed8a34de6d63eed36f000f5f175bbaa344e6102f
 		response.getWriter().write(json);
 	}
 	
